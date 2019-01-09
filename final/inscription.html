@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8">
+	<link href="assets/style/style.css" rel="stylesheet">
+
+	<title>Hébaïst</title>
+</head>
+
+<body>
+
+	<div id="backgound">
+		<img alt="background" id="bkimg" src="assets/pics/background_img.jpg" />
+		<img alt="bloc notes" id="bloc" src="assets/pics/bloc.png" />
+		<img alt="loupe" id="loupe" src="assets/pics/loupe.png" />
+		<img alt="lunettes" id="lunettes" src="assets/pics/lunettes.png" />
+		<img alt="appareil photo" id="apn" src="assets/pics/appareil.png" />
+		<img alt="crayon" id="crayon" src="assets/pics/crayon.png" />
+		<img alt="logo" id="logo" src="assets/pics/logo.png" />
+		<button type="button" class="bt-accueil" id="quitter">
+			<img alt="pause" class="color-bt" src="assets/pics/quitter.svg" />
+		</button>
+		<button type="button" class="bt-accueil" id="pause">
+			<img alt="quitter" class="color-bt" src="assets/pics/pause.svg" />
+		</button>
+	
+
+		<!--		///////////////////////////////////////////////////-->
+
+		<form>
+			<label class="text-login-inscript" for="login">LOGIN</label>
+        <input class="inpt-login-inscript rounded inpt" onkeyup="MyFunc(this)" type="text" name="Login" placeholder="Pseudo" value="" maxlength="25">
+        <!-- /Username -->
+        
+        
+		<label class="text-birthday" for="birthday">DATE DE NAISSANCE</label>
+        <input class="inpt-birthday rounded inpt" onkeyup="MyFunc(this)" type="text" name="birthday" placeholder="JJ/MM/AAAA" value="" maxlength="10">
+
+        <!-- /Birthday -->
+        
+        <label class="text-pass-inscript" for="pass">MOT DE PASSE</label>
+        <input class="inpt-pass-inscript rounded inpt" type="password" name="Password" value="" placeholder="* * * * * * *" maxlength="25">    
+        <!-- /Password  -->
+		
+		    <label class="text-pass-inscript2" for="pass">CONFIRMEZ MOT DE PASSE</label>
+        <input class="inpt-pass-inscript2 rounded inpt" type="password" name="Password2" value="" placeholder="* * * * * * *" maxlength="25">    
+        <!-- /Password 2  -->
+
+        
+        <div class="checkbox-inscript">
+          <input id="checkMe2" class="checkbox-inscript" type="checkbox"><label for="checkMe2"class="text-checkbox-inscript">J'ai lu et j'accepte<br />les conditions générales</label>
+        </div>
+        <!-- /Checkbox conditions -->
+
+			<a href="avatar.html"> <button type="button" class="bt-valide" id="valide">✔
+			</button></a>
+			<!-- /Button valide -->
+		</form>
+	</div>
+
+
+
+
+</body>
+
+
+</html>
