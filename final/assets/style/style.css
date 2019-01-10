@@ -117,8 +117,16 @@ body {
 	z-index: 2;
 	height: 60px;
 	width: 60px;
-	bottom: -30px;
+	bottom: -50px;
 	right: -50px;
+}
+#valide-inscription {
+	position: absolute;
+	z-index: 2;
+	height: 60px;
+	width: 60px;
+	bottom: -50px;
+	right: -130px;
 }
 
 #valide-avatar {
@@ -390,14 +398,14 @@ div .avatar-background {
 /*=================LOGIN==============*/
 
 
-form{
+form.form-login{
 	z-index:10;
 	position: absolute;
 	z-index:4;
 	width: 500px;
 	height: 300px;
 	margin-left:450px;
-	margin-top:-470px;	
+	margin-top:-500px;
 }
 
 .inpt-login {
@@ -433,7 +441,12 @@ form{
 }
 
 div.checkbox {
-	margin-top:30px;
+	margin-top:-20px;
+}
+
+div.forget {
+	margin-top:70px;
+	margin-left:60px;
 }
 
 /*
@@ -479,52 +492,90 @@ input[type=checkbox]:focus {
 .text-checkbox {
 	position: absolute;
 	cursor: pointer;
-	margin-top:250px;
+	margin-top:240px;
 	font-family: 'olivetti';
 	color: #3e3634;
-	font-size: 20pt;
+	font-size: 16pt;
+
+}
+
+.text-forget {
+	position: absolute;
+	cursor: pointer;
+	margin-top:260px;
+	font-family: 'olivetti';
+	font-weight:bold;
+	color: #3e3634;
+	font-size: 24pt;
 
 }
 
 /*=================INSCRIPTION==============*/
 
+form.form-inscription{
+	z-index:10;
+	position: absolute;
+	z-index:4;
+	width: 500px;
+	height: 300px;
+	margin-left:370px;
+	margin-top:-500px;
+}
 
 .inpt-login-inscript {
 	position:absolute;
-	width: 300px;
+	width: 230px;
 	height: 20px;
 	font-size: 16px;
-	margin-left: 5px;
-	margin-top:-5px;
+	margin-left: 90px;
+	margin-top:5px;
+	background-color: rgba(226, 225, 189, 0.2);
+}
+
+.inpt-email {
+	position:absolute;
+	width: 280px;
+	height: 20px;
+	font-size: 16px;
+	margin-left: 80px;
+	margin-top:60px;
 	background-color: rgba(226, 225, 189, 0.2);
 }
 
 .inpt-birthday {
 	position:absolute;
-	width: 300px;
+	width: 150px;
 	height: 20px;
 	font-size: 16px;
-	margin-left: 5px;
-	margin-top:70px;
+	margin-left: 220px;
+	margin-top:115px;
 	background-color: rgba(226, 225, 189, 0.2);
 }
 
+/*centrer placeholder*/
+
+.inpt-birthday::placeholder {
+		text-align:center;
+	}
+
+
+
 .inpt-pass-inscript {
 	position:absolute;
-	width: 300px;
+	width: 200px;
 	height: 20px;
 	font-size: 16px;
-	margin-left: 5px;
-	margin-top:165px;
+	margin-left:160px;
+	margin-top:175px;
 	background-color: rgba(226, 225, 189, 0.2);
 }
 
 .inpt-pass-inscript2 {
 	position:absolute;
-	width: 300px;
+	width: 200px;
 	height: 20px;
 	font-size: 16px;
-	margin-left: 5px;
+	margin-left: 280px;
 	margin-top:235px;
 	background-color: rgba(226, 225, 189, 0.2);
 }
@@ -532,7 +583,17 @@ input[type=checkbox]:focus {
 
 .text-login-inscript {
 	position:absolute;
-	margin-top: -40px;
+	margin-top: 0px;
+	font-family: 'olivetti';
+	color: #3e3634;
+	font-size: 18pt;
+}
+
+.text-email {
+	position:absolute;
+	color: #dbcfbf;
+	cursor: pointer;
+	margin-top: 55px;
 	font-family: 'olivetti';
 	color: #3e3634;
 	font-size: 18pt;
@@ -542,7 +603,7 @@ input[type=checkbox]:focus {
 	position:absolute;
 	color: #dbcfbf;
 	cursor: pointer;
-	margin-top: 35px;
+	margin-top: 110px;
 	font-family: 'olivetti';
 	color: #3e3634;
 	font-size: 18pt;
@@ -552,7 +613,7 @@ input[type=checkbox]:focus {
 	position:absolute;
 	color: #dbcfbf;
 	cursor: pointer;
-	margin-top: 130px;
+	margin-top: 170px;
 	font-family: 'olivetti';
 	color: #3e3634;
 	font-size: 18pt;
@@ -562,7 +623,7 @@ input[type=checkbox]:focus {
 	position:absolute;
 	color: #dbcfbf;
 	cursor: pointer;
-	margin-top: 200px;
+	margin-top: 230px;
 	font-family: 'olivetti';
 	color: #3e3634;
 	font-size: 18pt;
@@ -575,7 +636,7 @@ input[type=checkbox]:focus {
 	font-family: 'olivetti';
 	color: #3e3634;
 	font-size: 15pt;
-	width:300px;
+	width:500px;
 
 }
 
