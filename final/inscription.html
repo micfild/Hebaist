@@ -28,10 +28,15 @@
 
 		<!--		///////////////////////////////////////////////////-->
 
-		<form>
-			<label class="text-login-inscript" for="login">LOGIN</label>
+		<form class="form-inscription" method="post">
+			<label class="text-login-inscript" for="login">PSEUDO</label>
         <input class="inpt-login-inscript rounded inpt" onkeyup="MyFunc(this)" type="text" name="Login" placeholder="Pseudo" value="" maxlength="25">
         <!-- /Username -->
+
+
+				<label class="text-email" for="email">EMAIL</label>
+				<input class="inpt-email rounded inpt" onkeyup="MyFunc(this)" type="text" name="email" placeholder="exemple@domaine.com" value="" maxlength="25">
+				<!-- /email -->
         
         
 		<label class="text-birthday" for="birthday">DATE DE NAISSANCE</label>
@@ -49,13 +54,14 @@
 
         
         <div class="checkbox-inscript">
-          <input id="checkMe2" class="checkbox-inscript" type="checkbox"><label for="checkMe2"class="text-checkbox-inscript">J'ai lu et j'accepte<br />les conditions générales</label>
+          <input id="checkMe2" class="checkbox-inscript" type="checkbox"><label for="checkMe2"class="text-checkbox-inscript">J'ai lu et j'accepte les conditions générales</label>
         </div>
         <!-- /Checkbox conditions -->
 
-			<a href="avatar.html"> <button type="button" class="bt-valide" id="valide">✔
+			<a href="index.html"> <button type="button" class="bt-valide" id="valide-inscription">✔
 			</button></a>
 			<!-- /Button valide -->
+
 		</form>
 	</div>
 
