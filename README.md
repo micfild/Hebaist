@@ -19,3 +19,8 @@ l’initiation à la programmation en équipe.
 - Base de données en PHP/SQL
 - Moteur du jeu en JavaScript
 - café et croissants pour garder le rythme
+
+Quand ça va pas, quand il fait froid...
+
+> Allez voir sur DuckduckGo !!!
+>           **B.G**
