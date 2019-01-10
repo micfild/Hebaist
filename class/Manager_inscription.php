@@ -45,6 +45,6 @@ class Manager_inscription
         }
     }
 
-    private function 
+    private function
 
 }
