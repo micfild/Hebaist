@@ -1,3 +1,21 @@
+<?php
+
+    require_once "class/class.php";
+
+    try{
+        $strConnexion = 'mysql:host=localhost;dbname=hebaist';
+        // connection a la bd et SET attribut de PDO pour travailler en UTF8
+        $pdo = new PDO($strConnexion,'root','',array(PDO::MYSQL_ATTR_INIT_COMMAND =>'SET NAMES utf8'));
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		}
+	catch(PDOException $e){
+		$message = 'ERREUR PDO dans' . $e->getFile() . ' L.' . $e ->getLine() . ' : ' . $e->getMessage();
+		die($message);
+		}
+
+
+?>
+
 <!doctype html>
 <html lang="fr">
 
