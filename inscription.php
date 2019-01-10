@@ -30,17 +30,17 @@
 
     <form class="form-inscription" method="post" action="inscription_ctrl.php">
         <label class="text-login-inscript" for="login">PSEUDO</label>
-        <input class="inpt-login-inscript rounded inpt" type="text" name="login" placeholder="Pseudo" value="" maxlength="25">
+        <input class="inpt-login-inscript rounded inpt" type="text" name="login" placeholder="Pseudo" value="" maxlength="25" required="true">
         <!-- /Username -->
 
 
         <label class="text-email" for="email">EMAIL</label>
-        <input class="inpt-email rounded inpt" type="text" name="email" placeholder="exemple@domaine.com" value="" maxlength="25">
+        <input class="inpt-email rounded inpt" type="email" name="email" placeholder="exemple@domaine.com" value="" maxlength="25" required="true">
         <!-- /email -->
 
 
         <label class="text-birthday" for="birthday">DATE DE NAISSANCE</label>
-        <input class="inpt-birthday rounded inpt" type="text" name="birthday" placeholder="JJ/MM/AAAA" value="" maxlength="10">
+        <input class="inpt-birthday rounded inpt" type="date" name="birthday" placeholder="JJ/MM/AAAA" value="" maxlength="10" required="true">
 
         <!-- /Birthday -->
 
@@ -49,12 +49,12 @@
         <!-- /Password  -->
 
         <label class="text-pass-inscript2" for="pass">CONFIRMEZ MOT DE PASSE</label>
-        <input class="inpt-pass-inscript2 rounded inpt" type="password" name="password2" value="" placeholder="* * * * * * *" maxlength="25">
+        <input class="inpt-pass-inscript2 rounded inpt" type="password" name="password2" value="" placeholder="* * * * * * *" maxlength="25" required="true">
         <!-- /Password 2  -->
 
 
         <div class="checkbox-inscript">
-            <input id="checkMe2" class="checkbox-inscript" type="checkbox"><label for="checkMe2"class="text-checkbox-inscript">J'ai lu et j'accepte les conditions générales</label>
+            <input id="checkMe2" class="checkbox-inscript" type="checkbox" required="true"><label for="checkMe2"class="text-checkbox-inscript">J'ai lu et j'accepte les conditions générales</label>
         </div>
         <!-- /Checkbox conditions -->
 

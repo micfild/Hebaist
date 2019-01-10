@@ -1,29 +1,15 @@
 <?php
-/**
-* Created by PhpStorm.
-* User: micfi
-* Date: 10/01/2019
-* Time: 13:12
-*/
 
+require_once "class/User.php";
+require_once "class/Manager_inscription.php"
 
-
-require_once "class/user.php";
-
-try{
-    $strConnexion = 'mysql:host=localhost;dbname=hebaist';
-    // connection a la bd et SET attribut de PDO pour travailler en UTF8
-    $pdo = new PDO($strConnexion,'root','',array(PDO::MYSQL_ATTR_INIT_COMMAND =>'SET NAMES utf8'));
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch(PDOException $e){
-    $message = 'ERREUR PDO dans' . $e->getFile() . ' L.' . $e ->getLine() . ' : ' . $e->getMessage();
-    die($message);
-}
-
-$usr = new user();
+$usr = new User();
 $usr->setName($_POST['login']);
 $usr->setEmail($_POST['email']);
+$usr->setBirth($_POST['birthday']);
+$usr->setPwd1($_POST['password']);
+$usr->setPwd2($_POST['password2']);
+
 
 
 ?>
