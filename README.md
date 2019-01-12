@@ -1,4 +1,4 @@
-# Hebaist
+# Hébaïst
 
 ##   Jeu applicatif web
 
