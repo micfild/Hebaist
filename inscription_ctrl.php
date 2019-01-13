@@ -1,14 +1,18 @@
 <?php
 
 require_once "class/User.php";
-require_once "class/Manager_inscription.php"
+require_once "class/Manager_inscription.php";
 
-$usr = new User();
-$usr->setName($_POST['login']);
-$usr->setEmail($_POST['email']);
-$usr->setBirth($_POST['birthday']);
-$usr->setPwd1($_POST['password']);
-$usr->setPwd2($_POST['password2']);
+if (isset($_POST['login'],$_POST['email'],$_POST['birthday'],$_POST['password'],$_POST['password2'])) {
+
+    $usr = new User();
+    $usr->setName($_POST['login']);
+    $usr->setEmail($_POST['email']);
+    $usr->setBirth($_POST['birthday']);
+    $usr->setPwd1($_POST['password']);
+    $usr->setPwd2($_POST['password2']);
+}
+
 
 
 

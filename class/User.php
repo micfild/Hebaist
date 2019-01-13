@@ -112,4 +112,6 @@ class user
     {
         $this->pwd2 = $pwd2;
     }
+
+
 }
