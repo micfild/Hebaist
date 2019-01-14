@@ -15,6 +15,8 @@ try {
     die($message);
 }
 
+$pdomanager = new Manager_inscription($pdo);
+
 function pwdMatch($post)
 {
     if (!empty($post)) {
@@ -35,21 +37,6 @@ function mailMatch($post){
         }
     }
 }
-
-if (isset($_POST['login'],$_POST['email'],$_POST['birthday'],$_POST['password'],$_POST['password2'])) {
-    if (!pwdMatch($_POST) and !mailMatch($_POST)) {
-
-        $usr = new User();
-        $usr->setName($_POST['login']);
-        $usr->setEmail($_POST['email']);
-        $usr->setBirth($_POST['birthday']);
-        $usr->setPwd1(crypt($_POST['password'], $_sel));
-        $usr->setPwd2(crypt($_POST['password2'], $_sel));
-
-        echo '<pre style="z-index: 30; color: white;">' . var_export($usr, true) . '</pre>';
-    }
-}
-
 
 ?>
 
@@ -116,22 +103,39 @@ if (isset($_POST['login'],$_POST['email'],$_POST['birthday'],$_POST['password'],
 
     echo '<div class="error_display">';
 
-if (mailMatch($_POST)) {
-    echo '<p>Email invalide</p>';
-}
 
-if (pwdMatch($_POST) == true){
-    echo '<p>Mots de passe differents</p>';
-}
+    if (!empty($_POST)) {
+        foreach ($_POST as $cle=>$value){
+            if (empty($value)){
+                echo 'Le champ '. $cle . 'est obligatoire';
+            }
+        }
+        if (mailMatch($_POST)) {
+            echo '<p>Email invalide</p>';
+        }
+        if (pwdMatch($_POST)){
+            echo '<p>Mots de passe differents</p>';
+        }
 
-if (!empty($_POST)) {
-    foreach ($_POST as $cle=>$value){
-        if (empty($value)){
-            echo 'Le champ '. $cle . 'est obligatoire';
+        if (!$pdomanager->isPseudoExist($_POST)){
+            echo '<p>Le nom d\'utilisateur existe déja!!!</p>';
         }
     }
-}
+    if (isset($_POST['login'],$_POST['email'],$_POST['birthday'],$_POST['password'],$_POST['password2'])) {
+        if (!pwdMatch($_POST) and !mailMatch($_POST) and $pdomanager->isPseudoExist($_POST)) {
 
+            $usr = new User();
+            $usr->setName($_POST['login']);
+            $usr->setEmail($_POST['email']);
+            $usr->setBirth($_POST['birthday']);
+            $usr->setPwd1(crypt($_POST['password'], $_sel));
+            $usr->setPwd2(crypt($_POST['password2'], $_sel));
+
+
+            echo '<pre style="z-index: 30; color: white;">' . var_export($usr, true) . '</pre>';
+            echo '<pre style="z-index: 30; color: white;">' . var_export($pdomanager->isPseudoExist($_POST), true) . '</pre>';
+        }
+    }
     echo '</div>';
 
     echo '</form>';
@@ -139,10 +143,6 @@ if (!empty($_POST)) {
 ?>
 </div>
 
-
-
-
 </body>
-
 
 </html>

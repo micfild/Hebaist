@@ -8,27 +8,44 @@
 
 class Manager_inscription
 {
+    private $_db; // Instance de PDO
 
-//    public function control_master(User $user) {
-//        if (controlName($user) == false) {
-//            echo 'pb de nom';
-//        }else{
-//            if
-//        }
-//    }
-
-    private function controlName(User $user)
+    /**
+     * Manager_inscription constructor.
+     * @param $pdo
+     */
+    public function __construct($pdo)
     {
-        if (empty($user->name)) {
+        $this->setDb($pdo);
+    }
+
+    public function setDb(PDO $pdo)
+    {
+        $this->_db = $pdo;
+    }
+
+    public function isPseudoExist($post)
+    {
+        $pseudo = $post['login'];
+        if (empty($pseudo)) {
             header("Location: inscription.php");
         } else {
 
-            $sql = $this->_db->query("SELECT name FROM players WHERE login = '$user->name'");
-            if ($sql == null) {
+            $sql = $this->_db->query("SELECT count(login) FROM players WHERE login='.$pseudo.'");
+            $tmp = $sql->fetch(PDO::FETCH_ASSOC);
+            $data = $tmp["count(login)"];
+            if ($data == 0) {
                 return true;
             } else {
                 return false;
             }
         }
     }
+
+    public function pushUser(user $user){
+        
+    }
+
+
+
 }
