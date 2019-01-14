@@ -14,8 +14,6 @@ if (isset($_POST['login'],$_POST['email'],$_POST['birthday'],$_POST['password'],
 }
 
 
-
-
 ?>
 
 <!doctype html>

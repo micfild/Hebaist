@@ -651,3 +651,10 @@ form.form-inscription{
 	height:10px;
 }
 
+/* position et couleur des messages d'erreur*/
+
+.error_display {
+	margin-top: 350px;
+	color: red;
+}
+
