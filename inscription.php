@@ -131,6 +131,7 @@ function mailMatch($post){
             $usr->setPwd1(crypt($_POST['password'], $_sel));
             $usr->setPwd2(crypt($_POST['password2'], $_sel));
 
+            $pdomanager->pushUser($usr);
 
             echo '<pre style="z-index: 30; color: white;">' . var_export($usr, true) . '</pre>';
             echo '<pre style="z-index: 30; color: white;">' . var_export($pdomanager->isPseudoExist($_POST), true) . '</pre>';

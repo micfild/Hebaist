@@ -43,7 +43,14 @@ class Manager_inscription
     }
 
     public function pushUser(user $user){
-        
+
+        $adduser = $this->_db->prepare('INSERT INTO players(login, mail, birth_date, passwd) VALUES(:login, :email, :birth_date, :cryptpwd)');
+        $adduser->bindValue(':login', $user->getName(), PDO::PARAM_STR);
+        $adduser->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
+        $adduser->bindValue(':birth_date', $user->getBirth(), PDO::PARAM_STR);
+        $adduser->bindValue(':cryptpwd', $user->getPwd1(), PDO::PARAM_STR);
+        $adduser->execute();
+
     }
 
 
