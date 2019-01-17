@@ -12,7 +12,8 @@ var min = 1;
 var max = 3;
 
 var j = nbAllumettes-1;
-var tourRobot = false;
+var score = 0;
+
 
 
 afficheAllumettes(nbAllumettes);
@@ -46,6 +47,8 @@ function jouer() {
         if(jeu.nbAllumettesRestant == 0){
             var gagnant = ((jeu.tour == "robot") ? "joueur :)" : "robot :(");
             alert('Fin de partie. Le gagnant est le ' + gagnant) ;
+            score = ((jeu.tour == "robot") ? "100" : "0");
+            go(score);
             return 0;
         }
 
