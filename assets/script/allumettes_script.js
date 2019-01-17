@@ -1,155 +1,170 @@
 var jeu = new CL_jeu();
-var nbAllumettes = Math.floor(Math.random() * 20) + 25;
+var nbAllumettes = Math.floor(Math.random() * 20) + 7;
+
+jeu.nbAllumettesRestant = nbAllumettes;
+
 var container = document.getElementById("container-allumettes");
 var widthContainer = nbAllumettes*15;
 var margeLeft = (700-widthContainer)/2;
 container.style.left = margeLeft + "px";
+
 var min = 1;
 var max = 3;
+
 var j = nbAllumettes-1;
 var tourRobot = false;
 
 
-console.log(nbAllumettes);
-console.log(jeu.etat);
+afficheAllumettes(nbAllumettes);
 
-//==============CLASSES======================//
-function CL_jeu() {
-    this.etat ="initial;"
-    this.tour="joueur";
-    this.resultat="perd";
-    this.gains=0;
-}
+ 
+//==============Objet jeu======================//
+/*
+permet de stocker le nombre d'alumettes encore en jeu
+permet se savoir lorsque le jeu se termine
+*/
+ function CL_jeu() {
+    return {etat:"initial",tour:"joueur", nbAllumettesRestant: 0};
+ }
 
 //==============AFFICHAGE======================//
 
 function afficheAllumettes(pNum) {
-	var nbImage = pNum;
-
-    for (i = 0; i < nbImage; i++) {
+    for (i = 0; i < pNum; i++) {
         var myAllumettes = new Image;
         myAllumettes.src = 'assets/pics/allumette.png';
         myAllumettes.id = 'allu'+ '_' + i;
         container.appendChild (myAllumettes);
-        jouer();
     }
 }
 
 //==============JOUER======================//
 
 function jouer() {
-    if (jeu.etat == "initial") {
-        if (jeu.tour == "joueur") {
+    
+        // Fin de partie
+        if(jeu.nbAllumettesRestant == 0){
+            var gagnant = ((jeu.tour == "robot") ? "joueur :)" : "robot :(");
+            alert('Fin de partie. Le gagnant est le ' + gagnant) ;
+            return 0;
+        }
+
+        if (jeu.tour == "joueur") {            
             console.log("à votre tour !");
 
+            //affiche le nombre de boutton en regard du nombre d'alumette encore en jeu
+            if (jeu.nbAllumettesRestant < 3 ){
+                activ(jeu.nbAllumettesRestant);
+            }else{
+                activ(3);
+            }
+        }else{
+            console.log("au tour du robot !");
+            setTimeout(jouer_robot, 2000);
         }
-    }
+
+        //console.log("Nombre alumettes choisies: " + nbAllumettes);
+        //console.log("Nombre alumettes restants: " + jeu.nbAllumettesRestant);
+   
 }
+
+function jouer_robot() {
+    robot(min,max);    
+}
+
 //==============TEMPS ATTENTE======================//
 
 function disabled() {
     btOne.style.cursor = "default";
-    btOne.disabled=true;
+    btOne.style.disabled=true;
     btOne.style.display = "none";
+
     btTwo.style.cursor = "default";
     btTwo.style.disabled=true;
     btTwo.style.display = "none";
+
     btThree.style.cursor = "default";
     btThree.style.disabled=true;
     btThree.style.display = "none";
-    setTimeout(wait, 2000);
-
 }
 
-function wait() {
-    robot(min,max);
+function activ(nbBouttonAfficher) {
+
+    var bouttons = ["btOne", "btTwo", "btThree"];
+
+    bouttons.forEach(function(boutton, index, array) {
+        //permet de n'afficher que le nombre de bouttons en lien avec le nombre d'allumettre encore en jeu
+        if(index < nbBouttonAfficher ){
+            eval(boutton).style.cursor = "grab";
+            eval(boutton).style.disabled=false;
+            eval(boutton).style.display = "block";
+        }
+    });
 }
 
-function activ() {
-    btOne.style.cursor = "grab";
-    btOne.disabled=false;
-    btOne.style.display = "block";
-    btTwo.style.cursor = "grab";
-    btTwo.style.disabled=false;
-    btTwo.style.display = "block";
-    btThree.style.cursor = "grab";
-    btThree.style.disabled=false;
-    btThree.style.display = "block";
-}
 
-//==============ROBOT======================//
+
+
+
 //==============ROBOT======================//
 function robot(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
+    min = Math.ceil(min);
+    max = Math.floor(max);
 
-  var nbAlumettesRobot = Math.floor(Math.random() * (max - min)) + min;
+    var nbAlumettesRobot = Math.floor(Math.random() * (max - min)) + min;
 
-	console.log("allumette robot : " +nbAlumettesRobot);
-	console.log("numéro allumette :" + j);
+    console.log("allumette robot : " +nbAlumettesRobot);
+    console.log("numéro allumette :" + j);
+
+    // permet au robot de retirer toutes les alumetttes si jeu.nbAllumettesRestant <=3
+    // et donc de gagner
+    // lui donne un peu d'intélligence :)
+    if( jeu.nbAllumettesRestant <= max){
+        var nbAlumettesRobot = Math.floor(Math.random() * (max - min)) + min;
+        nbAlumettesRobot = jeu.nbAllumettesRestant;
+    }
 
     for (i = 0; i < nbAlumettesRobot; i++) {
         var numAllu = document.querySelector("#allu_" + j);
         numAllu.classList.add('verticalTranslateT');
         numAllu.style.opacity = '0';
         j --;
-    }
-    setTimeout(activ, 2000);
 
+        jeu.nbAllumettesRestant--;
+    }
+
+    jeu.tour = "joueur";
+    setTimeout(jouer, 2000);
 }
 
 
-//==============CLIC======================//
+//==============CLIC Joueur======================//
 
 btOne.onclick = function () {
-    var numAllu = document.querySelector("#allu_" + j);
-    numAllu.classList.add('verticalTranslateB');
-    numAllu.style.opacity = '0';
-	j--;
-    jeu.tour = "robot";
-    disabled();
-
-
+    supprimerAllumette(1);
 }
 
 btTwo.onclick = function () {
-
-    for (i = 0; i < 2; i++) {
-        var numAllu = document.querySelector("#allu_" + j);
-        numAllu.classList.add('verticalTranslateB');
-        numAllu.style.opacity = '0';
-        j --;
-    }
-    jeu.tour = "robot";
-    disabled();
-
+    supprimerAllumette(2);
 }
 
 btThree.onclick = function () {
+    supprimerAllumette(3);
+}
 
-    for (i = 0; i < 3; i++) {
+function supprimerAllumette(nb){
+
+    disabled();
+
+    for (i = 0; i < nb; i++) {
         var numAllu = document.querySelector("#allu_" + j);
         numAllu.classList.add('verticalTranslateB');
         numAllu.style.opacity = '0';
         j --;
+
+        jeu.nbAllumettesRestant--;
     }
+
     jeu.tour = "robot";
-    disabled();
-
+    jouer();
 }
-
-
-
-
-
-
-
-afficheAllumettes(nbAllumettes);
-
-
-
-
-
-
-
-
