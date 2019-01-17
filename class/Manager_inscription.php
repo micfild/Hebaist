@@ -27,19 +27,15 @@ class Manager_inscription
     public function isPseudoExist($post)
     {
         $pseudo = $post['login'];
-        if (empty($pseudo)) {
-            header("Location: inscription.php");
-        } else {
 
-            $sql = $this->_db->query("SELECT count(login) FROM players WHERE login='.$pseudo.'");
-            $tmp = $sql->fetch(PDO::FETCH_ASSOC);
-            $data = $tmp["count(login)"];
-            if ($data == 0) {
-                return true;
-            } else {
+        $sql = $this->_db->query("SELECT count(login) AS ctrl FROM players WHERE login=".$pseudo);
+        $data = $sql->fetch(PDO::FETCH_ASSOC);
+        var_dump($data);
+            if ($data["ctrl"] != '0') {
                 return false;
+            } else {
+                return true;
             }
-        }
     }
 
     public function pushUser(user $user){
@@ -52,7 +48,4 @@ class Manager_inscription
         $adduser->execute();
 
     }
-
-
-
 }

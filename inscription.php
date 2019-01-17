@@ -119,10 +119,11 @@ function mailMatch($post){
 
         if (!$pdomanager->isPseudoExist($_POST)){
             echo '<p>Le nom d\'utilisateur existe déja!!!</p>';
+
         }
     }
     if (isset($_POST['login'],$_POST['email'],$_POST['birthday'],$_POST['password'],$_POST['password2'])) {
-        if (!pwdMatch($_POST) and !mailMatch($_POST) and $pdomanager->isPseudoExist($_POST)) {
+        if ((!pwdMatch($_POST)) && (!mailMatch($_POST)) && ($pdomanager->isPseudoExist($_POST))) {
 
             $usr = new User();
             $usr->setName($_POST['login']);
