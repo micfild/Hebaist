@@ -658,3 +658,8 @@ form.form-inscription{
 	color: red;
 }
 
+.btn-modal-avatar {
+	position:absolute;
+	margin-left: 400px;
+	margin-top:5px;
+}

@@ -1,3 +1,17 @@
+<?php
+//Affiche le chemin vers les sessions
+//echo session_save_path();
+
+// first thing is to start session
+session_start();
+// now to check if variable is true
+
+
+if(!$_SESSION['logged'])
+{
+    header('location:login.php');
+}
+?>
 <!doctype html>
 <html lang="fr">
 <head>

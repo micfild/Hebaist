@@ -1,50 +1,64 @@
 <?php
+if($_POST){
+    require "config.php";
+    include "function.php";
 
-require "class/User.php";
-require "class/Manager_inscription.php";
+    $_sel = 'bgcpQNu2ILA0hVkRTSUlqvdO48M6s9jamBZWoiXe';
 
-$_sel = 'bgcpQNu2ILA0hVkRTSUlqvdO48M6s9jamBZWoiXe';
+    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        die("Stop");
+    }
+    if(strlen($_POST['login']) <= 5){
+        die("Pas assez long");
+    }
+    if ($_POST['password'] == $_POST['password2']){
+        $cryptpass = crypt($_POST['password'], $_sel);
+    }else{
+        die("Mots de passe differents");
+    }
 
-try {
-    $strConnexion = 'mysql:host=localhost;dbname=hebaist';
-    // connection a la bd et SET attribut de PDO pour travailler en UTF8
-    $pdo = new PDO($strConnexion, 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    $message = 'ERREUR PDO dans' . $e->getFile() . ' L.' . $e->getLine() . ' : ' . $e->getMessage();
-    die($message);
-}
 
-$pdomanager = new Manager_inscription($pdo);
 
-function pwdMatch($post)
-{
-    if (!empty($post)) {
-        if ($post['password'] != $post['password2']) {
-            return true;
-        } else {
-            return false;
+
+
+    if (!isLoginfree($_POST, $pdo)){
+        die("Login déjà utilisé");
+    }else {
+
+        $user_data = [
+            'login' => $_POST['login'],
+            'email' => $_POST['email'],
+            'birthday' => $_POST['birthday'],
+            'password' => $cryptpass,
+            'avatar_id' => 1,
+        ];
+
+
+        $sql = "INSERT INTO `players` (`login`, `mail`, `birth_date`, `passwd`, `avatar_id`) VALUES (:login, :email, :birthday, :password, :avatar_id)";
+        $req = $pdo->prepare($sql);
+
+
+        $req->execute($user_data);
+
+        $count = $req->rowCount();
+
+        if ($count == 1) {
+            session_start();
+            $_SESSION['logged'] = "C'est pas faux";
+            header('location:index.php');
         }
     }
 }
-
-function mailMatch($post){
-    if (!empty($post)){
-        if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL)){
-            return true;
-        }else{
-            return false;
-        }
-    }
-}
-
 ?>
-
 <!doctype html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+
     <link href="assets/style/style.css" rel="stylesheet">
 
     <title>Hébaïst</title>
@@ -67,84 +81,77 @@ function mailMatch($post){
         <img alt="quitter" class="color-bt" src="assets/pics/pause.svg" />
     </button>
 
-<?php
-    echo '<!--		//////////////////inscription/////////////////////-->
+    <!--		//////////////////inscription/////////////////////-->
 
     <form class="form-inscription" method="post" action="inscription.php">
         <label class="text-login-inscript" for="login">PSEUDO</label>
         <input class="inpt-login-inscript rounded inpt" type="text" name="login" placeholder="Pseudo" value="" maxlength="25" required="true">
-        <!-- /Username -->';
+        <!-- /Username -->
 
-    echo '<label class="text-email" for="email">EMAIL</label>
+
+        <label class="text-email" for="email">EMAIL</label>
         <input class="inpt-email rounded inpt" type="email" name="email" placeholder="exemple@domaine.com" value="" maxlength="25" required="true">
-        <!-- /email -->';
+        <!-- /email -->
 
-    echo '
+
         <label class="text-birthday" for="birthday">DATE DE NAISSANCE</label>
         <input class="inpt-birthday rounded inpt" type="date" name="birthday" placeholder="JJ/MM/AAAA" value="" maxlength="10" required="true">
 
-        <!-- /Birthday -->';
+        <!-- /Birthday -->
 
-    echo '<label class="text-pass-inscript" for="pass">MOT DE PASSE</label>
+        <label class="text-pass-inscript" for="pass">MOT DE PASSE</label>
         <input class="inpt-pass-inscript rounded inpt" type="password" name="password" value="" placeholder="* * * * * * *" maxlength="25">
-        <!-- /Password  -->';
+        <!-- /Password  -->
 
-    echo '<label class="text-pass-inscript2" for="pass">CONFIRMEZ MOT DE PASSE</label>
+        <label class="text-pass-inscript2" for="pass">CONFIRMEZ MOT DE PASSE</label>
         <input class="inpt-pass-inscript2 rounded inpt" type="password" name="password2" value="" placeholder="* * * * * * *" maxlength="25" required="true">
-        <!-- /Password 2  -->';
+        <!-- /Password 2  -->
 
-    echo '<div class="checkbox-inscript">
-            <input id="checkMe2" class="checkbox-inscript" type="checkbox" required="true"><label for="checkMe2"class="text-checkbox-inscript">J\'ai lu et j\'accepte les conditions générales</label>
-          </div>
+        <div class="checkbox-inscript">
+            <input id="checkMe2" class="checkbox-inscript" type="checkbox" required="true"><label for="checkMe2"class="text-checkbox-inscript">J'ai lu et j'accepte les conditions générales</label>
+        </div>
         <!-- /Checkbox conditions -->
 
         <a> <button type="submit" class="bt-valide" id="valide-inscription">✔</button></a>
-        <!-- /Button valide -->';
+        <!-- /Button valide -->
 
-    echo '<div class="error_display">';
+        <button type="button" class="btn-modal-avatar btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Choix de l'avatar
+        </button>
+        <!-- modal choix avatar -->
 
 
-    if (!empty($_POST)) {
-        foreach ($_POST as $cle=>$value){
-            if (empty($value)){
-                echo 'Le champ '. $cle . 'est obligatoire';
-            }
-        }
-        if (mailMatch($_POST)) {
-            echo '<p>Email invalide</p>';
-        }
-        if (pwdMatch($_POST)){
-            echo '<p>Mots de passe differents</p>';
-        }
+        <div class="error_display">
 
-        if (!$pdomanager->isPseudoExist($_POST)){
-            echo '<p>Le nom d\'utilisateur existe déja!!!</p>';
+        </div>
 
-        }
-    }
-    if (isset($_POST['login'],$_POST['email'],$_POST['birthday'],$_POST['password'],$_POST['password2'])) {
-        if ((!pwdMatch($_POST)) && (!mailMatch($_POST)) && ($pdomanager->isPseudoExist($_POST))) {
 
-            $usr = new User();
-            $usr->setName($_POST['login']);
-            $usr->setEmail($_POST['email']);
-            $usr->setBirth($_POST['birthday']);
-            $usr->setPwd1(crypt($_POST['password'], $_sel));
-            $usr->setPwd2(crypt($_POST['password2'], $_sel));
+    </form>
 
-            $pdomanager->pushUser($usr);
 
-            echo '<pre style="z-index: 30; color: white;">' . var_export($usr, true) . '</pre>';
-            echo '<pre style="z-index: 30; color: white;">' . var_export($pdomanager->isPseudoExist($_POST), true) . '</pre>';
-        }
-    }
-    echo '</div>';
-
-    echo '</form>';
-
-?>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </body>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>booh!!!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </html>

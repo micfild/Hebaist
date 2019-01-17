@@ -1,3 +1,34 @@
+<?php
+if($_POST){
+require_once "config.php";
+
+$user_data = [
+'login' => $_POST['login'],
+'password' => $_POST['password'],
+];
+
+
+
+$sql = 'SELECT COUNT(login) FROM players WHERE login = :login AND password = :password';
+$req = $pdo->prepare($sql);
+
+
+$req->execute($user_data);
+
+$result = $req->fetch();
+
+if($result[0] == 1){
+session_start();
+$_SESSION['logged'] = "C'est pas faux";
+header('location:index.php');
+}
+else{
+header('location:login.php?connect=fail');
+}
+}
+
+
+?>
 <!doctype html>
 <html lang="fr">
 
@@ -30,24 +61,24 @@
 
 	<form class ="form-login"  method="post" action="/Minora/AuthorizeR">
 		<label class="text-login" for="login">LOGIN</label>
-		<input class="inpt-login rounded inpt" onkeyup="MyFunc(this)" type="text" name="Login" placeholder="Pseudo" value="" maxlength="25">
+		<input class="inpt-login rounded inpt" onkeyup="MyFunc(this)" type="text" name="login" placeholder="Pseudo" value="" maxlength="25">
 		<!-- /Username -->
 
 		<label class="text-pass" for="pass">MOT DE PASSE</label>
-		<input class="inpt-pass rounded inpt" type="password" name="Password" value="" placeholder="* * * * * * *" maxlength="25">
+		<input class="inpt-pass rounded inpt" type="password" name="password" value="" placeholder="* * * * * * *" maxlength="25">
 		<!-- /Password  -->
 
-		<a href="inscription.html"> <div class="checkbox">
+		<a href="forget.php"> <div class="checkbox">
 			<label for="forget"class="text-checkbox">Mot de passe oublié ?</label>
 		</div></a>
 		<!-- /Forget -->
 
-		<a href="forget.html"> <div class="forget">
+		<a href="inscription.php"> <div class="forget">
 			<label for="checkMe"class="text-forget">Pas encore inscrit ?</label>
 		</div></a>
 		<!-- /Checkbox -->
 
-		<a href="index.html"> <button type="button" class="bt-valide" id="valide">✔
+		<a href="index.php"> <button type="button" class="bt-valide" id="valide">✔
 		</button></a>
 		<!-- /Button valide -->
 
